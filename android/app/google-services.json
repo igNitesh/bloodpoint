@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1044981551357",
+    "project_id": "bloodpoint-d2f17",
+    "storage_bucket": "bloodpoint-d2f17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044981551357:android:827828b770ae641b812e94",
+        "android_client_info": {
+          "package_name": "com.example.bloodpoint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044981551357-nu1ok57jlcn0tnr1cou375q55ve5st2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bloodpoint",
+            "certificate_hash": "5261a503e22a408fcd89d6a9c4214451cd5f7955"
+          }
+        },
+        {
+          "client_id": "1044981551357-2s90lrm9q94e067728ajfkrg2kk7r0ii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvfWsCr5vPvJsRZZVo_SR0K8KSz4xMOlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044981551357-2s90lrm9q94e067728ajfkrg2kk7r0ii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
