@@ -1,4 +1,4 @@
-# :heart: BloodMS :heart:
+# :heart: BloodPoint :heart:
 
 
  A blood management project.
