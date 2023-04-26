@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
       key: _scaffoldkey,
       appBar: AppBar(
         title: Text(
-          'BloodMS',
+          'BloodPoint',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[

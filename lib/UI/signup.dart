@@ -8,8 +8,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:polygon_clipper/polygon_clipper.dart';
 import 'package:bloodpoint/UI/map.dart';
 import 'package:bloodpoint/model/user_model.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
-  class Signup extends StatefulWidget {
+class Signup extends StatefulWidget {
   @override
   _SignupState createState() => _SignupState();
 }
@@ -20,7 +21,7 @@ class _SignupState extends State<Signup> {
   var _user = TextEditingController();
   var _pass = TextEditingController();
   var _cpass = TextEditingController();
-  late String selectedValue;
+  late String selectedValue = '';
   var _scaffoldkey = GlobalKey<ScaffoldState>();
   String signupText = "SignUp";
   String locationName = 'Location';
@@ -35,25 +36,30 @@ class _SignupState extends State<Signup> {
       longitude: 0,
       latitude: 0,
       email: "");
-  static const blood = <String>['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
+  final List<String> BloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
+  // static const blood = <String>['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
 
-  final List<DropdownMenuItem<String>> _bloodgroups = blood
-      .map(
-        (String value) => DropdownMenuItem<String>(
-              value: value,
-              child: Text(value,
-                  style: TextStyle(
-                    color: Colors.red,
-                  )),
-            ),
-      )
-      .toList();
+  // final List<DropdownMenuItem<String>> _bloodgroups = blood
+  //     .map(
+  //       (String value) => DropdownMenuItem<String>(
+  //         value: value,
+  //         child: Text(value,
+  //             style: TextStyle(
+  //               color: Colors.red,
+  //             )),
+  //       ),
+  //     )
+  //     .toList();
+  void _check() {
+    print("hello world");
+  }
 
   void _signup() async {
-    if (_formkey.currentState!.validate()) {
-      _formkey.currentState!.save();
-    } else
-      return;
+    print("clicked");
+    // if (_formkey.currentState!.validate()) {
+    //   _formkey.currentState!.save();
+    // } else
+    //   return;
     if (_pass.text != _cpass.text) {
       showSnackbar('Password do not match');
     } else {
@@ -61,7 +67,7 @@ class _SignupState extends State<Signup> {
         setState(() {
           isLoading = true;
         });
-        
+
         var fUser = await FirebaseAuthProvider()
             .signup(_email.text, _pass.text, _user.text);
         // FirestoreProvider().addUser(user..id = fUser.uid);
@@ -85,240 +91,222 @@ class _SignupState extends State<Signup> {
     }
   }
 
- showSnackbar(message) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: Colors.purple,
-    content: Text(message ?? "Something went wrong, try again later."),
-  ));
-}
-
+  showSnackbar(message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.purple,
+      content: Text(message ?? "Something went wrong, try again later."),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff44130f),
-      key: _scaffoldkey,
-      body: BaseScreen(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(20),
+      // backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+              child: Container(
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.1,
+                right: 35,
+                left: 35),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Login()));
-                      },
-                    )
-                  ],
+              children: [
+                TextField(
+                  controller: _user,
+                  decoration: InputDecoration(
+                      hintText: 'Full Name',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Text(
-                        signupText,
-                        style: TextStyle(color: Colors.white, fontSize: 35),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  controller: _email,
+                  decoration: InputDecoration(
+                      hintText: 'Email',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  controller: _pass,
+                  decoration: InputDecoration(
+                      hintText: 'Password',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  controller: _cpass,
+                  decoration: InputDecoration(
+                      hintText: 'Re - Password',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Mobile Number',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                //..................Dropdown
+                Column(
+                  children: [
+                    DropdownButtonFormField2(
+                      decoration: InputDecoration(
+                        //Add isDense true and zero Padding.
+                        //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                        isDense: true,
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        //Add more decoration as you want here
+                        //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                      ),
+                      isExpanded: true,
+                      hint: const Text(
+                        'Select Your Blood Group',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      items: BloodGroup.map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          )).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select blood group.';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        //Do something when changing the item if you want.
+                        selectedValue = value.toString();
+                        user.blood = selectedValue;
+                      },
+                      onSaved: (value) {
+                        selectedValue = value.toString();
+                        user.blood = selectedValue;
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        height: 60,
+                        padding: EdgeInsets.only(left: 20, right: 10),
+                      ),
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black45,
+                        ),
+                        iconSize: 30,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.center,
+                      // width: 300,
+                      height: 55,
+                      padding: EdgeInsets.only(left: 20, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          // color: Color.fromARGB(255, 72, 71, 71),
+                          width: 1,
+                        ),
+                      ),
+                      child: TextButton(
+                        child: Text(
+                          locationName,
+                        ),
+                        onPressed: () async {
+                          print("location");
+                          var loc = await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Maps()),
+                          );
+                          if (loc != null) {
+                            setState(() {
+                              locationName = "${loc.latitude},${loc.longitude}";
+                            });
+                            user.latitude = loc.latitude;
+                            user.longitude = loc.longitude;
+                          }
+                        },
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                buildSignupForm()
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => Login()));
+                        },
+                        child: const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 16,
+                            color: Colors.red,
+                          ),
+                        )),
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.red,
+                      child: IconButton(
+                        color: Colors.black,
+                        onPressed: () {
+                          _signup();
+                        },
+                        icon: Icon(Icons.arrow_forward),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  buildSignupForm() {
-    return Form(
-      key: _formkey,
-      child: Column(
-        children: <Widget>[
-          CustomTextField(
-            textCapitalization: TextCapitalization.words,
-            controller: _user,
-            onSaved: (value) {
-              user.name = value;
-            },
-            label: "Fullname",
-            hint: "Ex: Marquees Brownlee",
-            onValidate: (value) {
-              if (value.isEmpty) return 'This field can\'t be empty';
-            }, suffixIcon: Container(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            controller: _email,
-            onSaved: (value) {
-              user.email = value;
-            },
-            hint: "Email",
-            onValidate: (value) {
-              if (value.isEmpty) return 'This field can\'t be empty';
-            },
-            inputType: TextInputType.emailAddress,
-            label: "Email", suffixIcon: Container(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            controller: _pass,
-            label: "Password",
-            hint: "Password",
-            onValidate: (value) {
-              if (value.isEmpty) return 'This field can\'t be empty';
-            },
-            obscure: hiddenText,
-            suffixIcon: IconButton(
-              icon: Icon(hiddenText ? MdiIcons.eye : MdiIcons.eyeOff,
-                  color: Colors.grey),
-              onPressed: () {
-                setState(() {
-                  hiddenText = !hiddenText;
-                });
-              },
-            ), onSaved: (String ) {  },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            controller: _cpass,
-            onValidate: (value) {
-              if (value.isEmpty) return 'This field can\'t be empty';
-            },
-            label: "Confirm Password",
-            hint: "Re-Enter Password",
-            obscure: hiddenText,
-            suffixIcon: IconButton(
-              icon: Icon(
-                hiddenText ? MdiIcons.eye : MdiIcons.eyeOff,
-                color: Colors.grey,
-              ),
-              onPressed: () {
-                setState(() {
-                  hiddenText = !hiddenText;
-                });
-              },
-            ), onSaved: (String ) {  },
-          ),
-
-          //
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextField(
-            onSaved: (value) {
-              user.contact = value;
-            },
-            onValidate: (value) {
-              if (value.length != 10)
-                return 'Phone Number must be of 10 digits';
-              else if (value.isEmpty) return 'This field can\'t be empty';
-            },
-            label: 'Contact',
-            hint: 'Ex:9880124587', suffixIcon: Container(),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: Colors.grey, width: 1))),
-            child: DropdownButtonFormField(
-              value: selectedValue,
-              hint: Text(
-                'Blood Group',
-                style: TextStyle(color: Colors.white),
-              ),
-              items: _bloodgroups,
-              onChanged: ((String? newvalue) {
-                setState(() {
-                  selectedValue = newvalue!;
-                  print(selectedValue);
-                  user.blood = selectedValue;
-                });
-              }),
-            ),
-          ),
-          SizedBox(height: 20),
-          Container(
-            alignment: Alignment.topLeft,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: Colors.grey, width: 1))),
-            height: 55,
-            child: TextButton(
-              child: Text(locationName,
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-              onPressed: () async {
-                var loc = await Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Maps()));
-                if (loc != null) {
-                  setState(() {
-                    locationName = "${loc.latitude},${loc.longitude}";
-                  });
-                  user.latitude = loc.latitude;
-                  user.longitude = loc.longitude;
-                }
-              },
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              SizedBox(
-                height: 90,
-                child: ClipPolygon(
-                  sides: 6,
-                  rotate: 120,
-                  borderRadius: 9.0,
-                  child: Container(
-                    color: Colors.red,
-                    child: isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.yellow)))
-                        : IconButton(
-                            icon: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                            ),
-                            onPressed: _signup,
-                          ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          ))
         ],
       ),
     );
   }
+
+  // buildSignupForm() {
+  //   final List<String> BloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
+  //   return Container(
+  //     child: Builder(
+  //       builder: (context) {
+
+  //       }
+  //     ),
+  //   );
+  // }
 
   showErrorDialog() {
     return showDialog(

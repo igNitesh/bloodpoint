@@ -43,6 +43,8 @@ dependencies:
   google_maps_flutter: ^2.2.5
   location: ^4.4.0
   geolocator: ^7.0.3
+  dropdown_button2: ^2.1.0
+  google_maps_flutter_platform_interface: ^2.2.6
 
   
   
