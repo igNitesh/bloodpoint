@@ -17,11 +17,11 @@ class _DonorState extends State<Donor> {
   bool index = true;
   var _scaffoldkey = GlobalKey<ScaffoldState>();
   late GoogleMapController controller;
-  late List<UserModel> donors;
+  late List<UserModel> donors = [];
   late LatLng currentLocation;
   List<Marker> markers = [];
   String selectedValue = 'All';
-  List blood = ['All', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
+  List blood = ['All', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-','AB+','AB-'];
   void onMapCreated(GoogleMapController controller) async {
     this.controller = controller;
     var locationData = await Location().getLocation();

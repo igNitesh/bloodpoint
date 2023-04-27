@@ -21,6 +21,7 @@ class _SignupState extends State<Signup> {
   var _user = TextEditingController();
   var _pass = TextEditingController();
   var _cpass = TextEditingController();
+  var _mobile_number = TextEditingController();
   late String selectedValue = '';
   var _scaffoldkey = GlobalKey<ScaffoldState>();
   String signupText = "SignUp";
@@ -36,26 +37,10 @@ class _SignupState extends State<Signup> {
       longitude: 0,
       latitude: 0,
       email: "");
-  final List<String> BloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
-  // static const blood = <String>['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
-
-  // final List<DropdownMenuItem<String>> _bloodgroups = blood
-  //     .map(
-  //       (String value) => DropdownMenuItem<String>(
-  //         value: value,
-  //         child: Text(value,
-  //             style: TextStyle(
-  //               color: Colors.red,
-  //             )),
-  //       ),
-  //     )
-  //     .toList();
-  void _check() {
-    print("hello world");
-  }
+  final List<String> BloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-','AB+','AB-'];
+  
 
   void _signup() async {
-    print("clicked");
     // if (_formkey.currentState!.validate()) {
     //   _formkey.currentState!.save();
     // } else
@@ -70,7 +55,13 @@ class _SignupState extends State<Signup> {
 
         var fUser = await FirebaseAuthProvider()
             .signup(_email.text, _pass.text, _user.text);
-        // FirestoreProvider().addUser(user..id = fUser.uid);
+
+          user.name = _user.text;
+          user.email = _email.text;
+          user.contact = _mobile_number.text;
+
+        FirestoreProvider().addUser(user);
+        print("ueser added succesful ");
 
         setState(() {
           _email.text = "";
@@ -134,6 +125,7 @@ class _SignupState extends State<Signup> {
                 ),
                 TextField(
                   controller: _pass,
+                  obscureText: true,
                   decoration: InputDecoration(
                       hintText: 'Password',
                       border: OutlineInputBorder(
@@ -144,6 +136,7 @@ class _SignupState extends State<Signup> {
                 ),
                 TextField(
                   controller: _cpass,
+                  obscureText: true,
                   decoration: InputDecoration(
                       hintText: 'Re - Password',
                       border: OutlineInputBorder(
@@ -153,6 +146,7 @@ class _SignupState extends State<Signup> {
                   height: 30,
                 ),
                 TextField(
+                  controller: _mobile_number,
                   decoration: InputDecoration(
                       hintText: 'Mobile Number',
                       border: OutlineInputBorder(
@@ -297,16 +291,7 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  // buildSignupForm() {
-  //   final List<String> BloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-'];
-  //   return Container(
-  //     child: Builder(
-  //       builder: (context) {
-
-  //       }
-  //     ),
-  //   );
-  // }
+ 
 
   showErrorDialog() {
     return showDialog(

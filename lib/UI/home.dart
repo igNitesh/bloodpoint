@@ -121,6 +121,7 @@ class _HomeState extends State<Home> {
                   child: InkWell(
                     onTap: () async {
                       var user = await FirebaseAuthProvider().getCurrentUser();
+                      print("........................\n");
                       print(user);
                       if (user == null) {
                         showErrorDialog();

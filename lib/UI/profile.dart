@@ -15,7 +15,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
-  late UserModel donor;
+  late UserModel donor = UserModel(blood: '', email: '', contact: '', id: '', latitude: 0, longitude: 0, name: '');
   late Animation<double> animation;
   late AnimationController animaitonController;
   bool isLoading = true;
@@ -23,12 +23,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     FirestoreProvider().getUser().then((d) {
-      setState(() {
-        donor = d!;
-        isLoading = false;
-      });
+      print("r d ===============   $d");
+      if (d != null) {
+        // add a null check here
+        setState(() {
+          donor = d;
+          print(" hellllllllllllllllllll        $donor");
+          isLoading = false;
+        });
+      }
     });
   }
 
@@ -202,24 +206,27 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     showDialog(
         context: context,
         builder: (c) {
-          return AlertDialog(title: Text(title!), content: Text(body!), actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                "No",
-                style: TextStyle(color: Colors.green),
-              ),
-            ),
-            TextButton(
-              onPressed: onYes,
-              child: Text(
-                "Yes",
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ]);
+          return AlertDialog(
+              title: Text(title!),
+              content: Text(body!),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "No",
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ),
+                TextButton(
+                  onPressed: onYes,
+                  child: Text(
+                    "Yes",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ]);
         });
   }
 }

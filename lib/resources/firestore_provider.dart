@@ -6,8 +6,17 @@ class FirestoreProvider {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<UserModel> addUser(UserModel user) async {
-    final ref = _firestore.collection("users").doc(user.id);
-    await ref.set(user.toMap());
+    
+    final ref = _firestore.collection("users");
+    final DocumentReference docRef = ref.doc();
+    user.id = docRef.id;
+    // final DocumentReference docRef = 
+    
+    print(user);
+    await ref.add(user.toMap());
+    // final newUser = ref.copyWith(id: docRef.id);
+    // await ref.set(user.toMap());
+    await docRef.set(user.toMap());
     return user;
   }
 
@@ -15,6 +24,8 @@ class FirestoreProvider {
     final user = await FirebaseAuthProvider().getCurrentUser();
     await _firestore.collection('users').doc(user!.uid).delete();
   }
+ 
+
 
   Future<List<UserModel>> getUsers({String? bloodGroup}) async {
     late QuerySnapshot<Map<String, dynamic>> docs;
@@ -31,11 +42,15 @@ class FirestoreProvider {
         .toList();
   }
 
-  Future<UserModel?> getUser() async {
+Future<UserModel?> getUser() async {
     final user = await FirebaseAuthProvider().getCurrentUser();
-    final doc = await _firestore.collection('users').doc(user!.uid).get();
+    if (user == null) return null;
+
+    final doc = await _firestore.collection('users').doc(user.uid).get();
+    if (!doc.exists) return null;
     return UserModel.fromMap(doc.data()!);
-  }
+}
+
 
   Future<void> updateUser(UserModel user) async {
     final userr = await FirebaseAuthProvider().getCurrentUser();
@@ -45,3 +60,5 @@ class FirestoreProvider {
         .update(user.toMap());
   }
 }
+
+
